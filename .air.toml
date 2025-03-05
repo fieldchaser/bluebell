@@ -1,0 +1,16 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  pre_cmd = ["echo 'hello air' > pre_cmd.txt"]
+  cmd = "go build -o ./tmp/main.exe ."
+  bin = "./tmp/main.exe"
+  delay = 1000
+  exclude_dir = ["tmp","logs"]
+  include_ext = ["go", "toml"]
+  [build.env]
+    APP_ENV = "dev" # 关键配置
+
+[color]
+  main = "magenta"
+  watcher = "cyan"
