@@ -44,25 +44,20 @@ func VoteForPost(UserId string, PostId string, Direction float64) error {
 	} else {
 		op = -1
 	}
-	_, err := rdb.ZIncrBy(GetRedisKey(KeyPostScoreZSet), op*diff*ScorePerVote, PostId).Result()
-	if err != nil {
-		return err
-	}
+	//这里也需要事务
+	pipeline := rdb.TxPipeline()
+	pipeline.ZIncrBy(GetRedisKey(KeyPostScoreZSet), op*diff*ScorePerVote, PostId)
+
 	//3.更新用户投票记录
 	if Direction == 0 {
-		_, err := rdb.ZRem(GetRedisKey(KeyPostVotedZSetPrefix+PostId), UserId).Result()
-		if err != nil {
-			return err
-		}
+		pipeline.ZRem(GetRedisKey(KeyPostVotedZSetPrefix+PostId), UserId)
 	} else {
-		_, err := rdb.ZAdd(GetRedisKey(KeyPostVotedZSetPrefix+PostId), redis.Z{
+		pipeline.ZAdd(GetRedisKey(KeyPostVotedZSetPrefix+PostId), redis.Z{
 			Score:  Direction,
 			Member: UserId,
-		}).Result()
-		if err != nil {
-			return err
-		}
+		})
 	}
 
-	return nil
+	_, err := pipeline.Exec()
+	return err
 }
