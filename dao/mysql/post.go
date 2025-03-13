@@ -1,7 +1,9 @@
 package mysql
 
 import (
+	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
+	"strings"
 	"web_framework/models"
 )
 
@@ -36,5 +38,20 @@ func GetPostDetail(page, size int64) (data []*models.Post, err error) {
 	`
 	data = make([]*models.Post, 0, 2)
 	err = db.Select(&data, sqlstr, (page-1)*size, size)
+	return
+}
+
+func GetPostListByIDs(ids []string) (PostList []*models.Post, err error) {
+	sqlstr := `select post_id, title, content, author_id, community_id, create_time from post
+	where post_id in (?)
+	order by FIND_IN_SET(post_id, ?)
+	`
+	query, args, err := sqlx.In(sqlstr, ids, strings.Join(ids, ","))
+	if err != nil {
+		return nil, err
+	}
+
+	query = db.Rebind(query)
+	err = db.Select(&PostList, query, args...)
 	return
 }

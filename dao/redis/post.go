@@ -3,6 +3,7 @@ package redis
 import (
 	"github.com/go-redis/redis"
 	"time"
+	"web_framework/models"
 )
 
 func CreatePost(PostId int64) error {
@@ -22,4 +23,17 @@ func CreatePost(PostId int64) error {
 
 	_, err := pipeline.Exec()
 	return err
+}
+
+func GetPostIDsInOrder(p *models.ParamPostList) ([]string, error) {
+	//从redis获取id
+	//根据用户传来的order参数来确定要查询的redis key
+	key := GetRedisKey(KeyPostTimeZSet)
+	if p.Order == models.OrderScore {
+		key = GetRedisKey(KeyPostScoreZSet)
+	}
+	//确定起始索引和终止索引
+	start := (p.Page - 1) * p.Size
+	end := start + p.Size - 1
+	return rdb.ZRevRange(key, start, end).Result()
 }
