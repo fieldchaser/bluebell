@@ -35,10 +35,13 @@ func VoteForPost(UserId string, PostId string, Direction float64) error {
 		return err
 	}
 	//2.根据direction更新帖子分数
-	key := GetRedisKey(KeyPostTimeZSet) + PostId
+	key := GetRedisKey(KeyPostVotedZSetPrefix) + PostId
 	ov := rdb.ZScore(key, UserId).Val()
 	diff := math.Abs(ov - Direction)
 	var op float64
+	if ov == Direction {
+		return ErrorRepeated
+	}
 	if Direction > ov {
 		op = 1
 	} else {

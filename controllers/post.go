@@ -89,7 +89,7 @@ func GetPostListHandlers2(c *gin.Context) {
 		ResponseError(c, CodeInvalidParam)
 		return
 	}
-	data, err := logic.GetPostList2(p)
+	data, err := logic.GetPostListNew(p)
 	if err != nil {
 		zap.L().Error("logic.GetPostList2(p) failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy)
@@ -98,3 +98,27 @@ func GetPostListHandlers2(c *gin.Context) {
 	//3.返回响应
 	ResponseSuccess(c, data)
 }
+
+//// GetCommunityPostListHandler 根据社区查询帖子列表接口
+//func GetCommunityPostListHandler(c *gin.Context) {
+//	p := &models.ParamCommunityPostList{
+//		ParamPostList: &models.ParamPostList{
+//			Page:  1,
+//			Size:  10,
+//			Order: models.OrderTime,
+//		},
+//	}
+//	if err := c.ShouldBindQuery(p); err != nil {
+//		zap.L().Error("GetCommunityPostListHandler with invalid param", zap.Error(err))
+//		ResponseError(c, CodeInvalidParam)
+//		return
+//	}
+//	data, err := logic.GetCommunityPostList(p)
+//	if err != nil {
+//		zap.L().Error("logic.GetCommunityPostListHandler(p) failed", zap.Error(err))
+//		ResponseError(c, CodeServerBusy)
+//		return
+//	}
+//	//3.返回响应
+//	ResponseSuccess(c, data)
+//}
