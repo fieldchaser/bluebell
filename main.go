@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"web_framework/controllers"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"log"
@@ -12,6 +11,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"web_framework/controller
 	"web_framework/dao/mysql"
 	"web_framework/dao/redis"
 	"web_framework/logger"
@@ -19,6 +19,21 @@ import (
 	"web_framework/routes"
 	"web_framework/settings"
 )
+
+// @title bluebell项目接口文档
+// @version 1.0
+// @description bluebell后端接口详情
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name fieldchaser1@gmail.com
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1
+// @BasePath /api/v1
 
 func main() {
 	//1.加载配置文件

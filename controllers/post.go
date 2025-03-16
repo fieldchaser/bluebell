@@ -9,6 +9,16 @@ import (
 )
 
 // CreatePostHandlers 处理创建帖子的handler
+// @Summary 升级版帖子列表接口
+// @Description 可按社区按时间或分数排序查询帖子列表接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query models.ParamPostList false "查询参数"
+// @Security ApiKeyAuth
+// @Success 200 {object} _ResponsePostList
+// @Router /post [post]
 func CreatePostHandlers(c *gin.Context) {
 	//1.参数校验
 	post := new(models.Post)
@@ -37,6 +47,16 @@ func CreatePostHandlers(c *gin.Context) {
 }
 
 // GetPostDetailHandlers 处理查询帖子详情的handler
+// @Summary 升级版帖子列表接口
+// @Description 可按社区按时间或分数排序查询帖子列表接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query models.ParamPostList false "查询参数"
+// @Security ApiKeyAuth
+// @Success 200 {object} _ResponsePostList
+// @Router /post/:id [get]
 func GetPostDetailHandlers(c *gin.Context) {
 	//1.获取url中的id
 	id := c.Param("id")
@@ -58,6 +78,16 @@ func GetPostDetailHandlers(c *gin.Context) {
 }
 
 // GetPostListHandlers 处理帖子列表的handler
+// @Summary 升级版帖子列表接口
+// @Description 可按社区按时间或分数排序查询帖子列表接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query models.ParamPostList false "查询参数"
+// @Security ApiKeyAuth
+// @Success 200 {object} _ResponsePostList
+// @Router /posts [get]
 func GetPostListHandlers(c *gin.Context) {
 	//1.获取分页参数
 	page, size := GetPageInfo(c)
@@ -73,12 +103,22 @@ func GetPostListHandlers(c *gin.Context) {
 }
 
 // GetPostListHandlers2 升级版帖子列表接口
-// 根据前端传过来的参数动态的获取帖子列表
-// 按创建时间排序 或者 按帖子分数排序
-// 1.获取参数
-// 2.从redis查询id列表
-// 3.根据id去数据库查询帖子详情
+// @Summary 升级版帖子列表接口
+// @Description 可按社区按时间或分数排序查询帖子列表接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query models.ParamPostList false "查询参数"
+// @Security ApiKeyAuth
+// @Success 200 {object} _ResponsePostList
+// @Router /posts2 [get]
 func GetPostListHandlers2(c *gin.Context) {
+	// 根据前端传过来的参数动态的获取帖子列表
+	// 按创建时间排序 或者 按帖子分数排序
+	// 1.获取参数
+	// 2.从redis查询id列表
+	// 3.根据id去数据库查询帖子详情
 	p := &models.ParamPostList{
 		Page:  1,
 		Size:  10,

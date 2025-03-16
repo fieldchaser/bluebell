@@ -11,7 +11,16 @@ import (
 	"web_framework/models"
 )
 
-//实现注册功能的控制器
+// SignUp 注册接口
+// 实现注册功能的控制器
+// @Summary 注册接口
+// @Description 注册接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param object query models.ParamPostList false "查询参数"
+// @Success 200 {object} _ResponsePostList
+// @Router /signup [get]
 func SignUp(c *gin.Context) {
 	//1.参数的获取与校验
 	p := new(models.ParamSignUp)
@@ -47,6 +56,16 @@ func SignUp(c *gin.Context) {
 }
 
 //实现登录功能的控制器
+
+// Login 登录接口
+// @Summary 登录接口
+// @Description 登录接口
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param object query models.ParamLogin false "查询参数"
+// @Success 200 {object} _ResponsePostList
+// @Router /posts2 [get]
 func Login(c *gin.Context) {
 	//1.验证请求参数
 	p := new(models.ParamLogin)
