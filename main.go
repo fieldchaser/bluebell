@@ -11,7 +11,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"web_framework/controller
+	"web_framework/controllers"
 	"web_framework/dao/mysql"
 	"web_framework/dao/redis"
 	"web_framework/logger"
