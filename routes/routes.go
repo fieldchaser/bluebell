@@ -21,7 +21,12 @@ func Setup() *gin.Engine {
 	}
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+	// middlewares.RateLimitMiddleware中间件用于基于令牌桶算法来限流，第一个参数传放令牌的时间间隔，第二个参数传令牌桶最大容量
 
+	//测试令牌桶的限流功能
+	//r.GET("/ping", func(c *gin.Context) {
+	//	c.String(http.StatusOK, "pong")
+	//})
 	// CORS 配置，允许前端请求
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"}, // 允许所有来源
