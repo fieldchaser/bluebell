@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"net/http"
+	"github.com/gin-contrib/pprof"
 	"time"
 	"web_framework/controllers"
 	_ "web_framework/docs" // 千万不要忘了导入把你上一步生成的docs
@@ -61,6 +62,8 @@ func Setup() *gin.Engine {
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "ok")
 	})
+
+	pprof.Register(r) // 添加pprof来对程序进行性能调优
 
 	r.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 
